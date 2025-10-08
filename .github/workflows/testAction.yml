@@ -1,0 +1,34 @@
+name: Run one MSTest (Windows)
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  one-test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      
+      - name: List tests
+        run: dotnet test testTheThing/testTheThing.csproj --list-tests -v n
+
+      
+      - name: Run specific test
+        run: >
+          dotnet test testTheThing/testTheThing.csproj
+          --no-build
+          --filter "FullyQualifiedName=HolaTimer.Tests.TimerTests.EsperaTresSegundosYLoguea"

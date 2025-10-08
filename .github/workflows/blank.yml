@@ -1,0 +1,16 @@
+name: Hola CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  say-hi:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Di hola
+        run: |
+          echo "Hola desde GitHub Actions 👋"
+          echo "Repo: $GITHUB_REPOSITORY"
+          echo "Actor: $GITHUB_ACTOR"
