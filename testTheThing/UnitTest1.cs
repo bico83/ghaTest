@@ -8,7 +8,7 @@ namespace HolaTimer.Tests;
 public class TimerTests
 {
     [TestMethod]
-    public async Task EsperaDiezSegundosYLoguea()
+    public async Task EsperaTresSegundosYLoguea()
     {
         Console.WriteLine("Iniciando prueba: esperando 3 segundos...");
         await Task.Delay(TimeSpan.FromSeconds(3));
