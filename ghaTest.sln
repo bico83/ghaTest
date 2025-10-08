@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "helloTimer", "helloTimer\helloTimer.csproj", "{B881B120-1F2C-4C1D-98A6-12A0D20838BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testTheThing", "testTheThing\testTheThing.csproj", "{834DBB5A-7CA6-448B-9313-F38EAF01A979}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B881B120-1F2C-4C1D-98A6-12A0D20838BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B881B120-1F2C-4C1D-98A6-12A0D20838BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B881B120-1F2C-4C1D-98A6-12A0D20838BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B881B120-1F2C-4C1D-98A6-12A0D20838BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{834DBB5A-7CA6-448B-9313-F38EAF01A979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{834DBB5A-7CA6-448B-9313-F38EAF01A979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{834DBB5A-7CA6-448B-9313-F38EAF01A979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{834DBB5A-7CA6-448B-9313-F38EAF01A979}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B11A3B86-984B-4956-826B-B1B37F218ED3}
+	EndGlobalSection
+EndGlobal
