@@ -10,12 +10,9 @@ jobs:
     runs-on: [self-hosted, Windows, X64]
 
     steps:
-      - name: Allow PowerShell scripts (scope = this job)
-        shell: powershell
-        run: |
-          Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-          Get-ExecutionPolicy -List
-    
+      - name: Allow PS via cmd
+        shell: cmd
+        run: powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy -Scope Process Bypass -Force; Get-ExecutionPolicy -List"
 
       - name: Checkout
         uses: actions/checkout@v4
