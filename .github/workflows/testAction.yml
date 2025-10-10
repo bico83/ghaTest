@@ -10,11 +10,11 @@ jobs:
     runs-on: [self-hosted, Windows, X64]
 
     steps:
-      - name: Allow PowerShell scripts in this job
-          shell: powershell
-          run: |
-            Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-            Get-ExecutionPolicy -List
+      - name: Allow PowerShell scripts (scope = this job)
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+          Get-ExecutionPolicy -List
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,13 +24,13 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Restore dependencies
+      - name: Restore
         run: dotnet restore
 
-      - name: Build project
+      - name: Build
         run: dotnet build --no-restore
 
-      - name: List all tests
+      - name: List tests
         run: dotnet test testTheThing/testTheThing.csproj --list-tests -v normal
 
       - name: Run all tests
