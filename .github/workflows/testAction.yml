@@ -9,11 +9,11 @@ jobs:
   test:
     runs-on: [self-hosted, Windows, X64]
 
-    steps:
-      - name: Allow PS via cmd
+    defaults:
+      run:
         shell: cmd
-        run: powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy -Scope Process Bypass -Force; Get-ExecutionPolicy -List"
 
+    steps:
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -26,17 +26,10 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore --configuration Release
 
       - name: List tests
         run: dotnet test testTheThing/testTheThing.csproj --list-tests -v normal
 
       - name: Run all tests
-        run: dotnet test testTheThing/testTheThing.csproj --no-build --verbosity normal
-
-      - name: Run specific timer test
-        run: >
-          dotnet test testTheThing/testTheThing.csproj
-          --no-build
-          --filter "Name=EsperaTresSegundosYLoguea"
-          --verbosity normal
+        run: dotnet test testTheThing/testTheThing.csproj --no-build --configuration Release --verbosity normal
