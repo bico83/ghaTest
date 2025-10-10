@@ -15,7 +15,6 @@ jobs:
           run: |
             Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
             Get-ExecutionPolicy -List
-        uses: actions/checkout@v4
 
       - name: Checkout
         uses: actions/checkout@v4
