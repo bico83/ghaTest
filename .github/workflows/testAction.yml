@@ -1,4 +1,4 @@
-name: Run one MSTest (Windows)
+name: Run MSTest Tests (Local & CI)
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  one-test:
+  test:
     runs-on: windows-latest
 
     steps:
@@ -16,19 +16,23 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          
           dotnet-version: '8.0.x'
 
-      - name: Restore
+      - name: Restore dependencies
         run: dotnet restore
 
-      
-      - name: List tests
-        run: dotnet test testTheThing/testTheThing.csproj --list-tests -v n
+      - name: Build project
+        run: dotnet build --no-restore
 
-      
-      - name: Run specific test
+      - name: List all tests
+        run: dotnet test testTheThing/testTheThing.csproj --list-tests -v normal
+
+      - name: Run all tests
+        run: dotnet test testTheThing/testTheThing.csproj --no-build --verbosity normal
+
+      - name: Run specific timer test
         run: >
           dotnet test testTheThing/testTheThing.csproj
           --no-build
-          --filter "FullyQualifiedName=HolaTimer.Tests.TimerTests.EsperaTresSegundosYLoguea"
+          --filter "Name=EsperaTresSegundosYLoguea"
+          --verbosity normal
