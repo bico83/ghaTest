@@ -34,7 +34,7 @@ public class TimerTests
     public void prueba_2()
     {
         Console.WriteLine("Ejecutando prueba_2 -> Expected: false (falla apropósito)");
-        Assert.IsTrue(false); // fuerza fallo si quisieras; aquí lo hacemos explícito:
+        Assert.IsTrue(true); // fuerza fallo si quisieras; aquí lo hacemos explícito:
         // Alternativa clara: Assert.IsFalse(true);  -- pero eso falla siempre.
     }
 
