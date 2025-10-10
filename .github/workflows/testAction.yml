@@ -11,10 +11,11 @@ jobs:
 
     steps:
       - name: Allow PowerShell scripts (scope = this job)
-        shell: pwsh
+        shell: powershell
         run: |
           Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
           Get-ExecutionPolicy -List
+    
 
       - name: Checkout
         uses: actions/checkout@v4
