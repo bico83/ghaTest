@@ -4,10 +4,23 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      testFilter:
+        description: "Filtro MSTest (opcional), ej: Name=prueba_.*"
+        required: false
+        default: ""
+      notes:
+        description: "Comentario (quién lanzó, etc.)"
+        required: false
+        default: ""
 
 jobs:
   test:
     runs-on: [self-hosted, Windows, X64]
+
+    concurrency:
+      group: local-runner
+      cancel-in-progress: false
 
     defaults:
       run:
@@ -31,5 +44,10 @@ jobs:
       - name: List tests
         run: dotnet test testTheThing/testTheThing.csproj --list-tests -v normal
 
-      - name: Run all tests
-        run: dotnet test testTheThing/testTheThing.csproj --no-build --configuration Release --verbosity normal
+      - name: Run all tests (with optional filter)
+        run: >
+          dotnet test testTheThing/testTheThing.csproj
+          --no-build
+          --configuration Release
+          ${{ inputs.testFilter != '' && format('--filter "{0}"', inputs.testFilter) || '' }}
+          --verbosity normal
