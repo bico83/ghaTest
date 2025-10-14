@@ -1,81 +1,27 @@
-name: Run MSTest Tests (Local & CI)
+- name: Generate .runsettings from inputs
+shell: cmd
+run: >
+  powershell -NoProfile -ExecutionPolicy Bypass -Command
+  "$xml = @'
+  <?xml version=""1.0"" encoding=""utf-8""?>
+  <RunSettings>
+    <RunConfiguration>
+      <ResultsDirectory>.\test_results</ResultsDirectory>
+    </RunConfiguration>
+    <TestRunParameters>
+      <Parameter name=""CameraIp""   value=""${{ inputs.CameraIp || '127.0.0.1' }}"" />
+      <Parameter name=""DelayMs""    value=""${{ inputs.DelayMs  || '1500' }}"" />
+      <Parameter name=""ShouldFail"" value=""${{ inputs.ShouldFail || 'false' }}"" />
+    </TestRunParameters>
+  </RunSettings>
+  '@; Set-Content -Path runsettings.test.runsettings -Value $xml -Encoding utf8"
 
-on:
-  push:
-  pull_request:
-  workflow_dispatch:
-    inputs:
-      testFilter:
-        description: "Filtro MSTest (opcional), ej: Name=prueba_.*"
-        required: false
-        default: ""
-      CameraIp:
-        description: "IP del dispositivo (CameraIp)"
-        required: false
-        default: "127.0.0.1"
-      DelayMs:
-        description: "Retardo en ms (DelayMs)"
-        required: false
-        default: "1500"
-      ShouldFail:
-        description: "true/false (ShouldFail)"
-        required: false
-        default: "false"
-      notes:
-        description: "Comentario (quien disparó, etc.)"
-        required: false
-        default: ""
-
-jobs:
-  test:
-    runs-on: [self-hosted, Windows, X64]
-
-    concurrency:
-      group: local-runner
-      cancel-in-progress: false
-
-    defaults:
-      run:
-        shell: cmd
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
-
-      - name: Restore
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --no-restore --configuration Release
-
-      - name: List tests
-        run: dotnet test testTheThing/testTheThing.csproj --list-tests -v normal
-
-      - name: Run all tests (with inputs → TestRunParameters)
-        run: >
-          dotnet test testTheThing/testTheThing.csproj
-          --no-build
-          --configuration Release
-          ${{ inputs.testFilter != '' && format('--filter "{0}"', inputs.testFilter) || '' }}
-          --logger "trx;LogFileName=test_results.trx"
-          --results-directory ./test_results
-          -- TestRunParameters.Parameter(name=\"CameraIp\",value=\"${{ inputs.CameraIp }}\")
-             TestRunParameters.Parameter(name=\"DelayMs\",value=\"${{ inputs.DelayMs }}\")
-             TestRunParameters.Parameter(name=\"ShouldFail\",value=\"${{ inputs.ShouldFail }}\")
-
-      # (Opcional) Artefacto + resumen bonito:
-      - name: Upload test results (TRX)
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: ./test_results
-
-      - name: Publish test summary
-        uses: EnricoMi/publish-unit-test-result-action/windows@v2
-        with:
-          files: ./test_results/*.trx
+- name: Run all tests (with .runsettings)
+run: >
+  dotnet test testTheThing/testTheThing.csproj
+  --no-build
+  --configuration Release
+  ${{ inputs.testFilter != '' && format('--filter "{0}"', inputs.testFilter) || '' }}
+  --logger "trx;LogFileName=test_results.trx"
+  --results-directory ./test_results
+  --settings runsettings.test.runsettings
