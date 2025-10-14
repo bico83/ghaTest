@@ -56,23 +56,21 @@ jobs:
       - name: List tests
         run: dotnet test testTheThing/testTheThing.csproj --list-tests -v normal
 
-      - name: Generate .runsettings from inputs
-        shell: cmd
-        run: >
-          powershell -NoProfile -ExecutionPolicy Bypass -Command
-          "$xml = @'
-          <?xml version=""1.0"" encoding=""utf-8""?>
-          <RunSettings>
-            <RunConfiguration>
-              <ResultsDirectory>.\test_results</ResultsDirectory>
-            </RunConfiguration>
-            <TestRunParameters>
-              <Parameter name=""CameraIp""   value=""${{ inputs.CameraIp || '127.0.0.1' }}"" />
-              <Parameter name=""DelayMs""    value=""${{ inputs.DelayMs  || '1500' }}"" />
-              <Parameter name=""ShouldFail"" value=""${{ inputs.ShouldFail || 'false' }}"" />
-            </TestRunParameters>
-          </RunSettings>
-          '@; Set-Content -Path runsettings.test.runsettings -Value $xml -Encoding utf8"
+      - name: Generate .runsettings from inputs (pure CMD)
+        run: |
+          (
+            echo ^<?xml version="1.0" encoding="utf-8"?^>
+            echo ^<RunSettings^>
+            echo   ^<RunConfiguration^>
+            echo     ^<ResultsDirectory^>.\test_results^</ResultsDirectory^>
+            echo   ^</RunConfiguration^>
+            echo   ^<TestRunParameters^>
+            echo     ^<Parameter name="CameraIp"   value="${{ inputs.CameraIp || '127.0.0.1' }}" /^>
+            echo     ^<Parameter name="DelayMs"    value="${{ inputs.DelayMs  || '1500' }}" /^>
+            echo     ^<Parameter name="ShouldFail" value="${{ inputs.ShouldFail || 'false' }}" /^>
+            echo   ^</TestRunParameters^>
+            echo ^</RunSettings^>
+          ) > runsettings.test.runsettings
 
       - name: Run all tests (with .runsettings)
         run: >
@@ -84,8 +82,6 @@ jobs:
           --results-directory ./test_results
           --settings runsettings.test.runsettings
 
-
-      # (Opcional) Artefacto + resumen bonito:
       - name: Upload test results (TRX)
         uses: actions/upload-artifact@v4
         with:
@@ -95,4 +91,4 @@ jobs:
       - name: Publish test summary
         uses: EnricoMi/publish-unit-test-result-action/windows@v2
         with:
-          files: ./test_results/*.trx
+          files: .\test_results\*.trx
