@@ -39,7 +39,7 @@ public class TimerTests
     public async Task EsperaConParametros_Y_Loguea()
     {
         var cameraIp   = GetParam("CameraIp", "CAMERA_IP", "127.0.0.1");
-        var delayMs    = GetIntParam("DelayMs", "DELAY_MS", 2500);
+        var delayMs    = GetIntParam("DelayMs", "DELAY_MS", 3200);
         var shouldFail = GetBoolParam("ShouldFail", "SHOULD_FAIL", false);
 
         Console.WriteLine($"[Test] CameraIp={cameraIp}  DelayMs={delayMs}  ShouldFail={shouldFail}");
