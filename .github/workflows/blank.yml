@@ -11,6 +11,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Di hola
         run: |
-          echo "Hola desde GitHub Actions 👋"
+          echo "Hola desde GitHub Actions"
           echo "Repo: $GITHUB_REPOSITORY"
           echo "Actor: $GITHUB_ACTOR"
