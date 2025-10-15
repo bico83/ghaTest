@@ -46,6 +46,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Prep dotnet user dir
+        shell: cmd
+        run: |
+          if not exist "%CD%\_dotnet" mkdir "%CD%\_dotnet"
+          echo DOTNET_INSTALL_DIR=%CD%\_dotnet>> %GITHUB_ENV%
+          echo DOTNET_ROOT=%CD%\_dotnet>> %GITHUB_ENV%
+          echo %CD%\_dotnet>> %GITHUB_PATH%
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
