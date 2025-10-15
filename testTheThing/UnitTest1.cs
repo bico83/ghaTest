@@ -52,4 +52,5 @@ public class TimerTests
     [TestMethod] public void prueba_1() => Assert.IsTrue(true);
     [TestMethod] public void prueba_2() => Assert.IsFalse(false); // falla adrede
     [TestMethod] public void prueba_3() => Assert.IsTrue(true);
+    [TestMethod] public void otra_cosa() => Assert.IsTrue(true);
 }
